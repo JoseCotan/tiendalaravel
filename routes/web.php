@@ -5,6 +5,7 @@ use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Articulo;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -73,5 +74,11 @@ Route::get('/carrito/aumentar/{id}', function ($id) {
     session()->put('carrito', $carrito);
     return redirect()->route('principal');
 })->name('carrito.aumentar')->whereNumber('id');
+
+Route::get('/comprar', function (){
+    return view('comprar', [
+        'carrito' => carrito(),
+    ]);
+})->Middleware('auth')->name('comprar');
 
 require __DIR__.'/auth.php';
